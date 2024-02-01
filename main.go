@@ -2,11 +2,18 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"github.com/comatory/naive-nx/internal"
 	"log"
 )
 
+var (
+	stubborn = flag.Bool("stubborn", false, "Force lint, type-check and test targets even if they are not present. Can result in failure.")
+)
+
 func main() {
+	flag.Parse()
+
 	projectPathDescriptor, err := internal.GetNxProjectPaths()
 	if err != nil {
 		log.Fatal(errors.New("Could not find nx workspace. Is this an Nx project?"), err)
@@ -34,7 +41,7 @@ func main() {
 
 	log.Println("Preparation done. Running Nx commands...")
 
-	err = internal.RunNxCommands(projectDescriptors)
+	err = internal.RunNxCommands(projectDescriptors, *stubborn)
 	if err != nil {
 		log.Fatal(errors.New("NX failed - check logs to see which target did not pass."), err)
 		return

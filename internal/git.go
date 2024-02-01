@@ -2,8 +2,8 @@ package internal
 
 import (
 	"os/exec"
-	"strings"
 	"path"
+	"strings"
 )
 
 func GetFilepathsFromDiff(projectPath string) ([]string, error) {

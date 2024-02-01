@@ -25,13 +25,13 @@ type WorkspaceJson struct {
 }
 
 type ProjectJson struct {
-	Name string
-  Targets map[string]interface{}
+	Name    string
+	Targets map[string]interface{}
 }
 
 type ProjectDescriptor struct {
-  Name string
-  Targets []string
+	Name    string
+	Targets []string
 }
 
 const MAX_DEPTH = 10
@@ -185,15 +185,15 @@ func GetAffectedNxProjectPaths(projectPaths []string, filePaths []string) []stri
 }
 
 func extractValidTargets(targets map[string]interface{}) []string {
-  var validTargets []string
+	var validTargets []string
 
-  for key := range targets {
-      if key == "lint" || key == "type-check" || key == "test" {
-        validTargets = append(validTargets, key)
-      }
-  }
+	for key := range targets {
+		if key == "lint" || key == "type-check" || key == "test" {
+			validTargets = append(validTargets, key)
+		}
+	}
 
-  return validTargets
+	return validTargets
 }
 
 func GetNxProjectDescriptors(projectRootPaths []string) ([]*ProjectDescriptor, error) {
@@ -220,9 +220,9 @@ func GetNxProjectDescriptors(projectRootPaths []string) ([]*ProjectDescriptor, e
 		}
 
 		descriptors = append(descriptors, &ProjectDescriptor{
-        Name: projectJson.Name,
-        Targets: extractValidTargets(projectJson.Targets),
-    })
+			Name:    projectJson.Name,
+			Targets: extractValidTargets(projectJson.Targets),
+		})
 	}
 
 	return descriptors, nil
