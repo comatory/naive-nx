@@ -6,12 +6,18 @@ import (
 	"strings"
 )
 
-func GetFilepathsFromDiff(projectPath string) ([]string, error) {
+func GetFilepathsFromDiff(projectPath string, ref string) ([]string, error) {
+	branchRef := ref
+
+	if ref == "" {
+		branchRef = "master"
+	}
+
 	cmd := exec.Command(
 		"git",
 		"diff",
 		"--name-only",
-		"master")
+		branchRef)
 
 	output, err := cmd.CombinedOutput()
 

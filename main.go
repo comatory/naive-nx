@@ -9,6 +9,7 @@ import (
 
 var (
 	stubborn = flag.Bool("stubborn", false, "Force lint, type-check and test targets even if they are not present. Can result in failure.")
+	baseRef	= flag.String("base-ref", "master", "Base ref to compare against. Defaults to master.")
 )
 
 func main() {
@@ -20,7 +21,7 @@ func main() {
 		return
 	}
 
-	touchedFiles, err := internal.GetFilepathsFromDiff(projectPathDescriptor.ProjectPath)
+	touchedFiles, err := internal.GetFilepathsFromDiff(projectPathDescriptor.ProjectPath, *baseRef)
 	if err != nil {
 		log.Fatal(errors.New("Could not get filepaths from git diff. Is this project using git?"), err)
 		return
