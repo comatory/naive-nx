@@ -19,7 +19,7 @@ func RunNxCommands(projectDescriptors []*ProjectDescriptor, stubbornMode bool) e
 		}
 
 		for _, target := range defaultTargets {
-			cmd := exec.Command("nx", "run-many", "--target", target, "--projects", strings.Join(projectNames, ","))
+			cmd := exec.Command("yarn", "nx", "run-many", "--target", target, "--projects", strings.Join(projectNames, ","))
 
 			cmd.Stdin = os.Stdin
 			cmd.Stdout = os.Stdout
@@ -34,7 +34,7 @@ func RunNxCommands(projectDescriptors []*ProjectDescriptor, stubbornMode bool) e
 	} else {
 		for _, projectDescriptor := range projectDescriptors {
 			for _, target := range projectDescriptor.Targets {
-				cmd := exec.Command("nx", target, projectDescriptor.Name)
+				cmd := exec.Command("yarn", "nx", target, projectDescriptor.Name)
 				cmd.Stdin = os.Stdin
 				cmd.Stdout = os.Stdout
 				cmd.Stderr = os.Stderr

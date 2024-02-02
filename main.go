@@ -5,15 +5,31 @@ import (
 	"flag"
 	"github.com/comatory/naive-nx/internal"
 	"log"
+	"fmt"
 )
 
 var (
 	stubborn = flag.Bool("stubborn", false, "Force lint, type-check and test targets even if they are not present. Can result in failure.")
 	baseRef	= flag.String("base-ref", "master", "Base ref to compare against. Defaults to master.")
+	help 	= flag.Bool("help", false, "Show help.")
 )
+
+func showHelp() {
+	fmt.Println("Usage: naive-nx [options]")
+	fmt.Println("Options:")
+	fmt.Println("  --stubborn: Force lint, type-check and test targets even if they are not present. Can result in failure.")
+	fmt.Println("  --base-ref: Base ref to compare against. Defaults to master.")
+	fmt.Println("  --help: Show help.")
+	fmt.Println("Example: naive-nx (just runs with defaults)")
+}
 
 func main() {
 	flag.Parse()
+
+	if *help {
+		showHelp()
+		return
+	}
 
 	projectPathDescriptor, err := internal.GetNxProjectPaths()
 	if err != nil {
