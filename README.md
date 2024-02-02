@@ -16,6 +16,8 @@ Download a release, run `chmod +x naive-nx` and move to appropriate location suc
 
 `naive-nx --help` shows API.
 
+By just running `naive-nx`, your remote `origin` first will be updated (can be turned off with `--autoFetch=false`) and it will compare any changed files on `master`.
+
 The command can be executed even if you're in a sub-directory of a repository. It will diff against `master` branch by default. You can override this with flag `naive-nx --base-ref origin/me/some-feature-branch` for example.
 
 You can pass flag `naive-nx --stubborn`, this will force to run `test`, `type-check` and `lint` for detected projects without checking whether those targets are available. This command is faster but it can fail, so it's a tradeoff.

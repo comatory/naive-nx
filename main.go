@@ -3,15 +3,16 @@ package main
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/comatory/naive-nx/internal"
 	"log"
-	"fmt"
 )
 
 var (
-	stubborn = flag.Bool("stubborn", false, "Force lint, type-check and test targets even if they are not present. Can result in failure.")
-	baseRef	= flag.String("base-ref", "master", "Base ref to compare against. Defaults to master.")
-	help 	= flag.Bool("help", false, "Show help.")
+	stubborn  = flag.Bool("stubborn", false, "Force lint, type-check and test targets even if they are not present. Can result in failure.")
+	baseRef   = flag.String("base-ref", "master", "Base ref to compare against. Defaults to master.")
+	help      = flag.Bool("help", false, "Show help.")
+	autoFetch = flag.Bool("autoFetch", true, "Automatically fetches from origin before running. Defaults to true.")
 )
 
 func showHelp() {
@@ -19,9 +20,10 @@ func showHelp() {
 	fmt.Println("Options:")
 	fmt.Println("  --stubborn: Force lint, type-check and test targets even if they are not present. Can result in failure.")
 	fmt.Println("  --base-ref: Base ref to compare against. Defaults to master.")
+	fmt.Println("  --autoFetch: Automatically fetches from origin before running. Defaults to true.")
 	fmt.Println("  --help: Show help.")
 	fmt.Println("Example: naive-nx (just runs with defaults)")
-	fmt.Println("Example: git fetch origin && naive-nx --base-ref=origin/master (runs against remote master which is up-to-date)")
+	fmt.Println("Example: git fetch some-other-origin && naive-nx --base-ref=some-other-origin/master (runs against different remote)")
 }
 
 func main() {
@@ -30,6 +32,13 @@ func main() {
 	if *help {
 		showHelp()
 		return
+	}
+
+	if *autoFetch {
+		if err := internal.FetchOrigin(); err != nil {
+			log.Fatal(errors.New("Could not fetch from origin. Is this project using git?"), err)
+			return
+		}
 	}
 
 	projectPathDescriptor, err := internal.GetNxProjectPaths()

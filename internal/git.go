@@ -1,17 +1,37 @@
 package internal
 
 import (
+	"os"
 	"os/exec"
 	"path"
 	"strings"
 )
 
-func GetFilepathsFromDiff(projectPath string, ref string) ([]string, error) {
-	branchRef := ref
-
+func ResolveRef(ref string) string {
 	if ref == "" {
-		branchRef = "master"
+		return "master"
 	}
+
+	return ref
+}
+
+func FetchOrigin() error {
+	cmd := exec.Command(
+		"git",
+		"fetch",
+		"-v",
+		"origin",
+	)
+
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Env = os.Environ()
+	return cmd.Run()
+}
+
+func GetFilepathsFromDiff(projectPath string, ref string) ([]string, error) {
+	branchRef := ResolveRef(ref)
 
 	cmd := exec.Command(
 		"git",
