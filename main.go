@@ -21,6 +21,7 @@ func showHelp() {
 	fmt.Println("  --base-ref: Base ref to compare against. Defaults to master.")
 	fmt.Println("  --help: Show help.")
 	fmt.Println("Example: naive-nx (just runs with defaults)")
+	fmt.Println("Example: git fetch origin && naive-nx --base-ref=origin/master (runs against remote master which is up-to-date)")
 }
 
 func main() {
